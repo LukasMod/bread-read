@@ -1,3 +1,10 @@
+const client = contentful.createClient({
+    // This is the space ID. A space is like a project folder in Contentful terms
+    space: "dx6bm2w3omac",
+    // This is the access token for this space. Normally you get both ID and the token in the Contentful web app
+    accessToken: "QLD2GRmgwtDoUh8ETGmNCaFt2HXGqle-7dX_jv_w4Ws"
+});
+
 //variables
 
 const cartBtn = document.querySelector('.cart-btn');
@@ -23,10 +30,19 @@ let buttonsDOM = [];
 class Products {
     async getProducts() {
         try {
-            let result = await fetch('products.json');
-            let data = await result.json();
 
-            let products = data.items;
+            let contentful = await client.getEntries({
+                content_type: 'breadRead'
+            });
+
+            // let result = await fetch('products.json');
+            // let data = await result.json();
+
+            let products = contentful.items;
+            // let products = data.items;
+
+
+
             products = products.map(item => {
                 const {
                     title,
@@ -41,7 +57,7 @@ class Products {
                     price,
                     id,
                     image
-                }
+                };
             })
             return products
         } catch (error) {
@@ -122,19 +138,17 @@ class UI {
     addCartItem(item) {
         const div = document.createElement('div');
         div.classList.add('cart-item');
-        div.innerHTML = `
-<img src=${item.image} alt="product">
+        div.innerHTML = `<img src=${item.image} alt="product">
                     <div>
                         <h4>${item.title}</h4>
                         <h5>$${item.price}</h5>
                         <span class="remove-item" data-id=${item.id}>remove</span>
                     </div>
                     <div>
-                        <i class="fa fa-chevron-up" data-id=${item.id}aria-hidden="true"></i>
+                        <i class="fa fa-chevron-up" data-id=${item.id} aria-hidden="true"></i>
                         <p class="item-amount">${item.amount}</p>
                         <i class="fa fa-chevron-down" data-id=${item.id} aria-hidden="true"></i>
-                    </div>
-`;
+                        </div>`;
         cartContent.appendChild(div);
     }
     showCart() {
@@ -163,6 +177,36 @@ class UI {
             this.clearCart()
         });
         //cart functionality
+        cartContent.addEventListener('click', event => {
+            if (event.target.classList.contains('remove-item')) {
+                let removeItem = event.target;
+                let id = removeItem.dataset.id;
+                cartContent.removeChild(removeItem.parentElement.parentElement);
+                this.removeItem(id)
+            } else if (event.target.classList.contains('fa-chevron-up')) {
+                let addAmount = event.target;
+                let id = addAmount.dataset.id;
+                let tempItem = cart.find(item => item.id === id);
+                tempItem.amount = tempItem.amount + 1;
+                Storage.saveCart(cart);
+                this.setCartValues(cart);
+                addAmount.nextElementSibling.innerText = tempItem.amount;
+            } else if (event.target.classList.contains('fa-chevron-down')) {
+                let lowerAmount = event.target;
+                let id = lowerAmount.dataset.id;
+                let tempItem = cart.find(item => item.id === id);
+                tempItem.amount = tempItem.amount - 1;
+                if (tempItem.amount > 0) {
+                    Storage.saveCart(cart);
+                    this.setCartValues(cart);
+                    lowerAmount.previousElementSibling.innerText = tempItem.amount;
+                } else {
+                    cartContent.removeChild(lowerAmount.parentElement.parentElement);
+                    this.removeItem(id)
+                }
+            }
+
+        })
     }
     clearCart() {
         let cartItems = cart.map(item => item.id);
