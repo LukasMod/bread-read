@@ -8,10 +8,13 @@ const client = contentful.createClient({
 //variables
 
 const cartBtn = document.querySelector('.cart-btn');
+const menuBtn = document.querySelector('.menu-btn');
 const closeCartBtn = document.querySelector('.close-cart');
+const closeMenuBtn = document.querySelector('.close-menu');
 const clearCartBtn = document.querySelector('.clear-cart');
 const cartDOM = document.querySelector('.cart');
-const cartOverlay = document.querySelector('.cart-overlay');
+const menuDOM = document.querySelector('.menu');
+const bodyOverlay = document.querySelector('.body-overlay');
 const cartItems = document.querySelector('.cart-items');
 const cartTotal = document.querySelector('.cart-total');
 const cartContent = document.querySelector('.cart-content');
@@ -152,15 +155,22 @@ class UI {
         cartContent.appendChild(div);
     }
     showCart() {
-        cartOverlay.classList.add('transparentBcg');
+        bodyOverlay.classList.add('transparentBcg');
         cartDOM.classList.add('show-cart');
+    }
+    // show menu
+    showMenu() {
+        bodyOverlay.classList.add('transparentBcg');
+        menuDOM.classList.add('show-menu');
     }
     setupAPP() {
         cart = Storage.getCart();
         this.setCartValues(cart);
         this.populateCart(cart);
         cartBtn.addEventListener('click', this.showCart);
+        menuBtn.addEventListener('click', this.showMenu);
         closeCartBtn.addEventListener('click', this.hideCart);
+        closeMenuBtn.addEventListener('click', this.hideMenu);
     }
     populateCart(cart) {
         cart.forEach(item => {
@@ -168,8 +178,12 @@ class UI {
         })
     }
     hideCart() {
-        cartOverlay.classList.remove('transparentBcg');
+        bodyOverlay.classList.remove('transparentBcg');
         cartDOM.classList.remove('show-cart');
+    }
+    hideMenu() {
+        bodyOverlay.classList.remove('transparentBcg');
+        menuDOM.classList.remove('show-menu');
     }
     cartLogic() {
         //clear cart button

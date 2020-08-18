@@ -16,11 +16,14 @@
 
 <body>
     <!-- navbar -->
-    <nav class='navbar'>
+    <nav class='navbar' id='main'>
         <div class='navbar-center'>
-            <span class="nav-icon">
-                <i class="fa fa-bars"></i>
-            </span>
+            <div class='menu-btn'>
+                <span class="nav-icon">
+                    <i class="fa fa-bars"></i>
+                </span>
+            </div>
+
 
             <h1 class='logo'><img src="./images/logo.svg" alt="store logo2"><span class='letter'>B</span>READ<span
                     class='letter'>R</span>EAD <img src="./images/book.png" alt="store logo1"></h1>
@@ -44,7 +47,7 @@
     </header>
     <!-- end of header -->
     <!-- products -->
-    <section class="products">
+    <section class="products" id='products'>
         <div class="section-title">
             <h2>our products</h2>
         </div>
@@ -53,8 +56,24 @@
         </div>
     </section>
     <!-- end of products -->
-    <!-- cart -->
-    <div class="cart-overlay">
+    <!-- footer -->
+    <footer>
+        <div class='footer' id='footer'>
+            <div class="fot-info">
+                <h1>Contact</h1>
+                <h3> Al. Grunwaldzka 475</h3>
+                <h3> Gdańsk 12-345</h3>
+                <h3> Phone: 123 456 789</h3>
+            </div>
+            <div class="fot-icons">
+                <i class="fa fa-facebook" aria-hidden="true"></i>
+                <i class="fa fa-envelope" aria-hidden="true"></i>
+            </div>
+        </div>
+    </footer>
+
+    <div class="body-overlay">
+        <!-- cart -->
         <div class="cart">
             <span class="close-cart">
                 <i class="fa fa-window-close" aria-hidden="true"></i>
@@ -72,11 +91,25 @@
                 <button class="clear-cart banner-btn">clear cart</button>
             </div>
         </div>
+        <!-- end of cart -->
+        <!-- menu -->
+        <div class="menu">
+            <span class="close-menu">
+                <i class="fa fa-window-close" aria-hidden="true"></i>
+            </span>
+            <ul>
+                <li><a href='#main'>Main</a></li>
+                <li><a href='#products'>Products</a></li>
+                <li><a href='#footer'>Contact</a></li>
+            </ul>
+
+        </div>
+        <!-- end of menu -->
     </div>
 
 
 
-    <!-- end of cart -->
+
     <!-- contentful -->
     <script src="https://cdn.jsdelivr.net/npm/contentful@latest/dist/contentful.browser.min.js"></script>
     <!-- app js -->
